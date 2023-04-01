@@ -15,6 +15,7 @@
                 "https://*.airbnb.fr/*"
             ],
             "js": [
+                "utils.js",
                 "airbnb/main.js"
             ]
         }
