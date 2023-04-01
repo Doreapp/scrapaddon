@@ -1,0 +1,44 @@
+{
+    "manifest_version": 2,
+    "name": "Scrapadon",
+    "version": "{{VERSION}}",
+    "description": "Allow scraping on multiple websites",
+    "icons": {
+        "48": "icons/icon-48.png",
+        "64": "icons/icon-64.png",
+        "32": "icons/icon-32.png",
+        "512": "icons/icon-512.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.airbnb.fr/*"
+            ],
+            "js": [
+                "airbnb/main.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "storage",
+        "clipboardWrite"
+    ],
+    "options_ui": {
+        "page": "settings.html",
+        "browser_style": true,
+        "chrome_style": true
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "Doreapp.scrapadon@github.com"
+        }
+    },
+    "browser_action": {
+        "default_icon": {
+            "512": "icons/icon-512.png",
+            "64": "icons/icon-64.png",
+            "48": "icons/icon-48.png",
+            "32": "icons/icon-32.png"
+        }
+    }
+}
