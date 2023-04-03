@@ -12,10 +12,11 @@
     "content_scripts": [
         {
             "matches": [
-                "https://*.airbnb.fr/*"
+                "https://www.airbnb.fr/rooms/*"
             ],
             "js": [
                 "utils.js",
+                "airbnb/api.js",
                 "airbnb/main.js"
             ]
         }
