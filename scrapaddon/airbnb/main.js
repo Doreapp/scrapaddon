@@ -26,6 +26,8 @@ const parseBookItSection = (section) => {
         return {}
     if (!section.structuredDisplayPrice.primaryLine)
         return {}
+    if (!section.structuredDisplayPrice.primaryLine.price)
+        return {}
     const price = section.structuredDisplayPrice.primaryLine.price.replace(/\s/, "")
     return { price }
 }
@@ -188,14 +190,15 @@ const scrap = async () => {
     return result
 }
 
-const button = Scrap.addScrapButton()
-button.onclick = () => {
-    scrap()
-        .then(result => {
-            log("RESULT", result)
-        })
-        .catch(error => {
-            console.error("Error while parsing", error)
-        })
-}
-
+Scrap.addScrapButton({
+    exportJson: () => {
+        scrap()
+            .then(
+                result => navigator.clipboard.writeText(JSON.stringify(result)),
+                error => { console.error("Error while parsing", error) }
+            ).then(
+                () => { log("Saved") },
+                () => { log("Unable to save") }
+            )
+    }
+})

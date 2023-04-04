@@ -15,6 +15,7 @@
                 "https://www.airbnb.fr/rooms/*"
             ],
             "js": [
+                "icons.js",
                 "utils.js",
                 "airbnb/api.js",
                 "airbnb/main.js"
