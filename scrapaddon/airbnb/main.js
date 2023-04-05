@@ -195,10 +195,16 @@ Scrap.addScrapButton({
         scrap()
             .then(
                 result => navigator.clipboard.writeText(JSON.stringify(result)),
-                error => { console.error("Error while parsing", error) }
-            ).then(
-                () => { log("Saved") },
-                () => { log("Unable to save") }
             )
+            .catch(error => {
+                console.error("Error while parsing", error)
+                Scrap.toast("Unable to parse website", "error")
+            })
+            .then(() => {
+                Scrap.toast("Data saved in cliboard", "success")
+            })
+            .catch(() => {
+                Scrap.toast("Unable to save data in clipboard", "error")
+            })
     }
 })
