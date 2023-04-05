@@ -11,7 +11,6 @@ const MAIN_LIGHT_COLOR = "#7A193B"
 
 const styleSheet = `
     .scrap-button {
-        padding: 1em;
         background-color: ${MAIN_COLOR};
         color: #ffffff;
         font-weight: bold;
@@ -20,16 +19,60 @@ const styleSheet = `
         bottom: 1rem;
         z-index: 500;
         border: none;
-        border-radius: 0.5rem;
+        border-radius: 1em;
+    }
+
+    .scrap-button:before {
+        content: "";
+        position: absolute;
+        border : 1px solid transparent;
+        top: -15%;
+        left: 10%;
+        width: 0;
+        border-radius: 40%;
+        transform: translate3d(-50%, 0, 0);
+    }
+
+    @keyframes backforth {
+        0% {
+            left: 10%;
+            width: 0;
+        }
+        25% {
+            width: 50%;
+        }
+        50% {
+            left: 90%;
+            width: 0;
+        }
+        75% {
+            width: 50%;
+        }
+        100% {
+            left: 10%;
+            width: 0;
+        }
+    }
+
+    .scrap-button.loading:before {
+        border: 1px solid #34495e;
+        animation: backforth 1s ease-in-out;
+        animation-iteration-count: infinite;
     }
 
     .scrap-icon-button {
-        width: 1.5rem;
+        width: 4em;
+        padding: 1em;
         fill: white;
+        border-radius: 1em;
+
+        transition : all .3s;
+        -wekit-transition : all .3s;
+        -moz-transition : all .3s;
     }
 
     .scrap-icon-button:hover {
-        opacity: 0.9;
+        background-color: rgba(255, 255, 255, 0.2);
         cursor: pointer;
     }
 
@@ -122,25 +165,24 @@ const createElement = ({
     return element
 }
 
+const mainButton = createElement({
+    tagname: "div",
+    className: "scrap-button",
+    parent: qs("body"),
+})
+
 const addScrapButton = ({
     add,
     exportCsv,
     exportJson
 } = {}) => {
-    const root = qs("body")
-
-    const container = createElement({
-        tagname: "div",
-        className: "scrap-button",
-        parent: root,
-    })
-
     const jsonButton = createElement({
         tagname: "div",
-        className: "scrap-icon-button loading",
-        parent: container,
+        className: "scrap-icon-button",
+        parent: mainButton,
         html: ICONS.file_json
     })
+    jsonButton.setAttribute("title", "Export to JSON")
     jsonButton.onclick = exportJson
 }
 
@@ -171,10 +213,19 @@ const toast = (message, type = undefined) => {
     }, 3000)
 }
 
+const setLoading = (loading = true) => {
+    if (loading) {
+        mainButton.classList.add("loading")
+    } else {
+        mainButton.classList.remove("loading")
+    }
+}
+
 window.Scrap = {
     qs,
     qsa,
     createElement,
     addScrapButton,
-    toast
+    toast,
+    setLoading
 }

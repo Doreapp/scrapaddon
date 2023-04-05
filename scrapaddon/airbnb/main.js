@@ -192,6 +192,7 @@ const scrap = async () => {
 
 Scrap.addScrapButton({
     exportJson: () => {
+        Scrap.setLoading(true)
         scrap()
             .then(
                 result => navigator.clipboard.writeText(JSON.stringify(result)),
@@ -205,6 +206,9 @@ Scrap.addScrapButton({
             })
             .catch(() => {
                 Scrap.toast("Unable to save data in clipboard", "error")
+            })
+            .finally(() => {
+                Scrap.setLoading(false)
             })
     }
 })
