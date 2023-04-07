@@ -18,6 +18,7 @@
                 "icons.js",
                 "utils.js",
                 "airbnb/api.js",
+                "airbnb/store.js",
                 "airbnb/main.js"
             ]
         }
