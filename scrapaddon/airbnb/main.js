@@ -190,25 +190,47 @@ const scrap = async () => {
     return result
 }
 
+/**
+ * Transform JSON result into a csv text
+ * @param {object} data
+ * @return {string} CSV text
+ */
+const json2csv = (data) => {
+    const headers = Object.keys(data)
+    const values = []
+    for (const key of headers) {
+        let value = data[key]
+        if (typeof value != "number") {
+            value = JSON.stringify(value).replace(";", "")
+        }
+        values.push(value)
+    }
+    return headers.join(";") + "\n" + values.join(";") + "\n"
+}
+
 Scrap.addScrapButton({
     exportJson: () => {
         Scrap.setLoading(true)
         scrap()
-            .then(
-                result => navigator.clipboard.writeText(JSON.stringify(result)),
-            )
+            .then(result => navigator.clipboard.writeText(JSON.stringify(result)),)
             .catch(error => {
                 console.error("Error while parsing", error)
                 Scrap.toast("Unable to parse website", "error")
             })
-            .then(() => {
-                Scrap.toast("Data saved in cliboard", "success")
+            .then(() => { Scrap.toast("Data saved in cliboard", "success") })
+            .catch(() => { Scrap.toast("Unable to save data in clipboard", "error") })
+            .finally(() => { Scrap.setLoading(false) })
+    },
+    exportCsv: () => {
+        Scrap.setLoading(true)
+        scrap()
+            .then(result => navigator.clipboard.writeText(json2csv(result)))
+            .catch(error => {
+                console.error("Error while parsing", error)
+                Scrap.toast("Unable to parse website", "error")
             })
-            .catch(() => {
-                Scrap.toast("Unable to save data in clipboard", "error")
-            })
-            .finally(() => {
-                Scrap.setLoading(false)
-            })
+            .then(() => { Scrap.toast("Data saved in cliboard", "success") })
+            .catch(() => { Scrap.toast("Unable to save data in clipboard", "error") })
+            .finally(() => { Scrap.setLoading(false) })
     }
 })

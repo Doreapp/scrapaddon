@@ -61,6 +61,7 @@ const styleSheet = `
     }
 
     .scrap-icon-button {
+        display: inline-block;
         width: 4em;
         padding: 1em;
         fill: white;
@@ -176,14 +177,27 @@ const addScrapButton = ({
     exportCsv,
     exportJson
 } = {}) => {
-    const jsonButton = createElement({
-        tagname: "div",
-        className: "scrap-icon-button",
-        parent: mainButton,
-        html: ICONS.file_json
-    })
-    jsonButton.setAttribute("title", "Export to JSON")
-    jsonButton.onclick = exportJson
+    if (exportJson) {
+        const jsonButton = createElement({
+            tagname: "div",
+            className: "scrap-icon-button",
+            parent: mainButton,
+            html: ICONS.file_json
+        })
+        jsonButton.setAttribute("title", "Export to JSON")
+        jsonButton.onclick = exportJson
+    }
+
+    if (exportCsv) {
+        const csvButton = createElement({
+            tagname: "div",
+            className: "scrap-icon-button",
+            parent: mainButton,
+            html: ICONS.file_csv
+        })
+        csvButton.setAttribute("title", "Export to CSV")
+        csvButton.onclick = exportCsv
+    }
 }
 
 const toastContainer = createElement({
