@@ -62,28 +62,23 @@ const styleSheet = `
 
     .scrap-icon-button {
         display: inline-block;
-        width: 4em;
         padding: 1em;
         fill: white;
         border-radius: 1em;
+        line-height: 0;
 
         transition : all .3s;
         -wekit-transition : all .3s;
         -moz-transition : all .3s;
     }
+    .scrap-icon-button svg {
+        width: 2em;
+        height: 2em;
+    }
 
     .scrap-icon-button:hover {
         background-color: rgba(255, 255, 255, 0.2);
         cursor: pointer;
-    }
-
-    #scrap-toast-container {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        bottom: 0;
-        z-index: 500;
-        text-align: center;
     }
 
     @keyframes fadein {
@@ -92,9 +87,16 @@ const styleSheet = `
     }
 
     #scrap-toast {
+        position: fixed;
+        bottom: 2em;
+        left: 50%;
+        min-width: 250px;
+        margin-left: -125px;
+        text-align: center;
+
+        z-index: 500;
         display: inline-block;
 
-        margin: 2em;
         width: fit-content;
         padding: 0.8em 1.5em;
 
@@ -119,6 +121,22 @@ const styleSheet = `
 
     #scrap-toast.warning {
         background-color: #ed6c02;
+    }
+
+    #scrap-count {
+        position: absolute;
+        top: -1em;
+        left: -1em;
+        background: white;
+        color: black;
+        padding: 0.5em;
+        border-radius: 50%;
+        width: 2em;
+        height: 2em;
+        text-align: center;
+        font-size: 0.9rem;
+        line-height: 0.9rem;
+        box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
     }
 `
 const style = document.createElement('style');
@@ -212,7 +230,7 @@ const toastElement = createElement({
 const toast = (message, type = undefined) => {
     console.log("TOAST", message)
     toastElement.innerText = message
-    toastContainer.appendChild(toastElement)
+    qs("body").appendChild(toastElement)
     if (type === "success" || type === "error" || type === "warning") {
         toastElement.classList.add(type)
     }
@@ -235,11 +253,31 @@ const setLoading = (loading = true) => {
     }
 }
 
+const setCount = (count) => {
+    let countElement = qs("#scrap-count")
+    console.log(countElement)
+    if (count <= 0) {
+        countElement?.remove()
+    } else {
+        if (countElement === undefined || countElement === null) {
+            countElement = createElement({
+                tagname: "div",
+                id: "scrap-count",
+                parent: mainButton,
+                text: `${count}`
+            })
+        } else {
+            countElement.innerText = `${count}`
+        }
+    }
+}
+
 window.Scrap = {
     qs,
     qsa,
     createElement,
     addScrapButton,
     toast,
-    setLoading
+    setLoading,
+    setCount
 }
