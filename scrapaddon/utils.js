@@ -216,13 +216,19 @@ const addScrapButton = ({
         csvButton.setAttribute("title", "Export to CSV")
         csvButton.onclick = exportCsv
     }
+
+    if (add) {
+        const addButton = createElement({
+            tagname: "div",
+            className: "scrap-icon-button",
+            parent: mainButton,
+            html: ICONS.plus
+        })
+        addButton.setAttribute("title", "Export and add to queue")
+        addButton.onclick = add
+    }
 }
 
-const toastContainer = createElement({
-    tagname: "div",
-    id: "scrap-toast-container",
-    parent: qs("body"),
-})
 const toastElement = createElement({
     tagname: "div",
     id: "scrap-toast"

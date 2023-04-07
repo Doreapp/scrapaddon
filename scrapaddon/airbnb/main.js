@@ -196,41 +196,78 @@ const scrap = async () => {
  * @return {string} CSV text
  */
 const json2csv = (data) => {
-    const headers = Object.keys(data)
-    const values = []
-    for (const key of headers) {
-        let value = data[key]
-        if (typeof value != "number") {
-            value = JSON.stringify(value).replace(";", "")
+    if (Array.isArray(data)) {
+        const headers = Object.keys(data[0])
+        const rows = []
+        for (element of data) {
+            const values = []
+            for (const key of headers) {
+                let value = element[key]
+                if (typeof value != "number" && value !== undefined) {
+                    value = JSON.stringify(value).replace(";", "")
+                }
+                values.push(value)
+            }
+            rows.push(values.join(";"))
         }
-        values.push(value)
+        return headers.join(";") + "\n" + rows.join("\n") + "\n"
+    } else {
+        return json2csv([data])
     }
-    return headers.join(";") + "\n" + values.join(";") + "\n"
+}
+
+store = new Store()
+
+const exportData = async (toStringFunc) => {
+    const elements = await store.getElements() ?? []
+    Scrap.setLoading(true)
+    let result
+    if (elements.length == 0) {
+        try {
+            result = await scrap()
+        } catch (error) {
+            console.error("Error while parsing", error)
+            Scrap.toast("Unable to parse website", "error")
+            Scrap.setLoading(false)
+            return
+        }
+    } else {
+        result = await store.getElements()
+        await store.clearElements()
+        Scrap.setCount(0)
+    }
+    try {
+        navigator.clipboard.writeText(toStringFunc(result))
+        Scrap.toast("Data saved in cliboard", "success")
+    } catch (error) {
+        console.error("Error saving data in clipboard", error)
+        Scrap.toast("Unable to save data in clipboard", "error")
+    } finally {
+        Scrap.setLoading(false)
+    }
 }
 
 Scrap.addScrapButton({
     exportJson: () => {
-        Scrap.setLoading(true)
-        scrap()
-            .then(result => navigator.clipboard.writeText(JSON.stringify(result)),)
-            .catch(error => {
-                console.error("Error while parsing", error)
-                Scrap.toast("Unable to parse website", "error")
-            })
-            .then(() => { Scrap.toast("Data saved in cliboard", "success") })
-            .catch(() => { Scrap.toast("Unable to save data in clipboard", "error") })
-            .finally(() => { Scrap.setLoading(false) })
+        exportData(JSON.stringify)
     },
     exportCsv: () => {
+        exportData(json2csv)
+    },
+    add: () => {
         Scrap.setLoading(true)
         scrap()
-            .then(result => navigator.clipboard.writeText(json2csv(result)))
+            .then(result => store.addElement(result))
             .catch(error => {
                 console.error("Error while parsing", error)
                 Scrap.toast("Unable to parse website", "error")
             })
-            .then(() => { Scrap.toast("Data saved in cliboard", "success") })
-            .catch(() => { Scrap.toast("Unable to save data in clipboard", "error") })
+            .then(count => {
+                Scrap.setCount(count)
+                Scrap.toast("Element added", "success")
+            })
             .finally(() => { Scrap.setLoading(false) })
     }
 })
+
+store.getElements().then(elements => Scrap.setCount(elements?.length ?? 0))
