@@ -13,7 +13,7 @@ class Store {
      * @returns
      */
     async get(key) {
-        return await browser.storage.local.get(key)
+        return (await browser.storage.local.get(key))[key]
     }
 
     /**
@@ -39,6 +39,7 @@ class Store {
             elements.push(element)
         }
         this.set(key, elements)
+        await this.addToHistory(element)
         return elements.length
     }
 
@@ -48,7 +49,7 @@ class Store {
      */
     async getElements() {
         const key = `${this.name}-elements`
-        return (await this.get(key))[key]
+        return await this.get(key)
     }
 
     /**
@@ -57,5 +58,23 @@ class Store {
     async clearElements() {
         const key = `${this.name}-elements`
         await this.set(key, undefined)
+    }
+
+    async addToHistory(element) {
+        const key = `${this.name}-history`
+        let elements = await this.getHistory()
+        if (elements === null || elements === undefined) {
+            elements = [element]
+        } else {
+            elements.push(element)
+        }
+        this.set(key, elements)
+        return elements.length
+
+    }
+
+    async getHistory() {
+        const key = `${this.name}-history`
+        return await this.get(key)
     }
 }
