@@ -76,4 +76,6 @@ The first endpont we use is `https://www.airbnb.fr/StaysPdpSections/`
 }
 ```
 
-TODO use https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/write
+## Cliboard
+
+The addon saves the scrapped data into your clipboard.
