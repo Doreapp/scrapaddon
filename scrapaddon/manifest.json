@@ -23,6 +23,12 @@
             ]
         }
     ],
+    "background": {
+        "scripts": [
+            "home/background.js"
+        ],
+        "persistent": false
+    },
     "permissions": [
         "storage",
         "clipboardWrite"
