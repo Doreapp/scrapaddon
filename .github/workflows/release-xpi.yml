@@ -15,16 +15,14 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependences
-        run: |
-          npm install
-          ./install.sh
+        run: npm install
       - name: Build and sign XPI
-        env: 
+        env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
         run: |
           tag_name=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')
-          sed -i "s/{{VERSION}}/$tag_name/g" gitlab-stats/manifest.json
+          sed -i "s/{{VERSION}}/$tag_name/g" scrapaddon/manifest.json
           npm run sign
           mv web-ext-artifacts/*.xpi addon.xpi
       - name: Upload XPI to GitHub Release
