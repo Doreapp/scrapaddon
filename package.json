@@ -1,8 +1,8 @@
 {
     "scripts": {
-        "lint": "web-ext lint --source-dir ./gitlab-stats/",
-        "build": "web-ext build --source-dir ./gitlab-stats/",
-        "sign": "web-ext sign --source-dir ./gitlab-stats/ --channel=listed"
+        "lint": "web-ext lint --source-dir ./scrapaddon/",
+        "build": "web-ext build --source-dir ./scrapaddon/",
+        "sign": "web-ext sign --source-dir ./scrapaddon/ --channel=listed"
     },
     "devDependencies": {
         "web-ext": "^7.6.0"
