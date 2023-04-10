@@ -15,7 +15,9 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependences
-        run: npm install
+        run: |
+          npm install
+          ./install.sh
       - name: Build and sign XPI
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
