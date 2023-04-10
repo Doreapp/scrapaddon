@@ -1,0 +1,91 @@
+:root {
+    --main-color: #6C0026;
+    --main-light-color: #7A193B;
+
+    --nav-height: 48px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* ----- Navigation bar */
+
+#navbar {
+    height: var(--nav-height);
+    padding: 10px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--main-color);
+    color: white;
+}
+
+#navbar .title {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+#navbar .menu {
+    list-style: none;
+}
+
+
+/* ----- Main placement */
+
+main {
+    width: 100%;
+    flex: 1;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+}
+
+.left-panel,
+.right-panel {
+    height: 100%;
+    flex: 1;
+}
+
+.left-panel {
+    overflow: scroll;
+}
+
+/* ----- Table */
+
+table {
+    border-collapse: collapse;
+}
+
+table tr td,
+table tr th {
+    padding: 3px;
+    color: white;
+    min-width: 150px;
+}
+
+table th {
+    background-color: rgb(48, 48, 48);
+}
+
+table tr:nth-child(odd) td:nth-child(odd),
+table tr:nth-child(even) td:nth-child(even) {
+    background-color: rgb(32, 32, 32);
+}
+
+table tr:nth-child(even) td:nth-child(odd),
+table tr:nth-child(odd) td:nth-child(even) {
+    background-color: rgb(16, 16, 16);
+}

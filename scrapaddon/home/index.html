@@ -1,1 +1,39 @@
-Hello world!
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="index.css" />
+        <title>Scrapaddon: Airbnb</title>
+        <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+            integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" /> -->
+    </head>
+
+<body>
+    <nav id="navbar">
+        <span class="title">Airbnb</span>
+        <ul class="menu">
+            <li id="option-settings" class="menu-option">Options</li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="left-panel">
+            <table id="records"></table>
+        </div>
+        <div class="right-panel">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <script src="../airbnb/store.js"></script>
+    <script src="../utils.js"></script>
+    <script src="ui.js"></script>
+    <script src="index.js"></script>
+    <!-- <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script> -->
+</body>
+
+</html>
