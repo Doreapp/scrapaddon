@@ -187,6 +187,10 @@ const scrap = async () => {
         result[key] = value
     }
 
+    result.url = params.url
+    result.checkIn = params.query.check_in
+    result.checkOut = params.query.check_out
+
     return result
 }
 
