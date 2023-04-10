@@ -187,7 +187,6 @@ const createElement = ({
 const mainButton = createElement({
     tagname: "div",
     className: "scrap-button",
-    parent: qs("body"),
 })
 
 const addScrapButton = ({
@@ -227,6 +226,8 @@ const addScrapButton = ({
         addButton.setAttribute("title", "Export and add to queue")
         addButton.onclick = add
     }
+
+    qs("body").appendChild(mainButton)
 }
 
 const toastElement = createElement({
