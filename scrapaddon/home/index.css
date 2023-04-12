@@ -21,7 +21,7 @@ body {
 
 #navbar {
     height: var(--nav-height);
-    padding: 10px 20px;
+    padding: 0px 20px;
 
     display: flex;
     align-items: center;
@@ -57,9 +57,7 @@ main {
 .right-panel {
     height: 100%;
     flex: 1;
-}
-
-.left-panel {
+    height: calc(100vh - var(--nav-height));
     overflow: scroll;
 }
 
@@ -84,12 +82,14 @@ table th {
     background-color: rgb(48, 48, 48);
 }
 
-table tr:nth-child(odd) td:nth-child(odd),
-table tr:nth-child(even) td:nth-child(even) {
+table tr:nth-child(odd) td {
     background-color: rgb(32, 32, 32);
 }
 
-table tr:nth-child(even) td:nth-child(odd),
-table tr:nth-child(odd) td:nth-child(even) {
+table tr:nth-child(even) td {
     background-color: rgb(16, 16, 16);
+}
+
+table tr.focused td {
+    background-color: rgb(64, 0, 16);
 }
