@@ -11,8 +11,7 @@
         maxZoom: 20
     }).addTo(map);
 
-    function displayAirbnbRecords(records) {
-        console.log("displaying Airbnb Records", records)
+    function buildRecordsTable(records) {
         rows = records.map(
             record => [
                 `<img src="${record.imageUrl}" alt="${record.title}" style="max-width: 150px;">`,
@@ -28,8 +27,36 @@
         UI.buildTable(
             "table#records",
             ["Image", "Title", "Total price", "Rate", "Link", "Capacity", "Property", "Room"],
-            rows
+            rows,
+            records.map(record => `record-${record.listingId}`)
         )
+    }
+
+    function buildRecordsMarkers(records) {
+        const markerIcon = L.icon({
+            iconUrl: '../airbnb/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12.5, 20.5],
+            popupAnchor: [0, -22]
+        });
+        for (const record of records) {
+            if (!record.listingLat || !record.listingLng)
+                continue
+            const marker = L.marker([record.listingLat, record.listingLng], { icon: markerIcon })
+            marker.addTo(map);
+            marker.on('mouseover', function () {
+                qs(`#record-${record.listingId}`).classList.add("focused")
+            });
+            marker.on('mouseout', function () {
+                qs(`#record-${record.listingId}`).classList.remove("focused")
+            });
+        }
+    }
+
+    function displayAirbnbRecords(records) {
+        console.log("displaying Airbnb Records", records)
+        buildRecordsTable(records)
+        buildRecordsMarkers(records)
     }
 
     store.getHistory()
