@@ -17,6 +17,7 @@
         if (!table) {
             throw new Error(`Unable to find a table from query '${query}'`)
         }
+        table.innerHTML = ""
         const headersRows = createElement({
             tagname: "tr",
             parent: table

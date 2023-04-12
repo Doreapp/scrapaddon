@@ -21,15 +21,25 @@
                 `<a href="${record.url}">Link</a>`,
                 record.personCapacity,
                 record.propertyType,
-                record.roomType
+                record.roomType,
+                `<button id="btn-delete-${record.listingId}">Delete</button>`
             ]
         )
         UI.buildTable(
             "table#records",
-            ["Image", "Title", "Total price", "Rate", "Link", "Capacity", "Property", "Room"],
+            ["Image", "Title", "Total price", "Rate", "Link", "Capacity", "Property", "Room", "Delete"],
             rows,
             records.map(record => `record-${record.listingId}`)
         )
+        qsa("table#records button").forEach(button => {
+            button.onclick = async (event) => {
+                const id = event.target.getAttribute("id").substring(11)
+                await store.filterHistory(element => element.listingId != id)
+                const newHistory = await store.getHistory()
+                // TODO rebuild markers
+                buildRecordsTable(newHistory)
+            }
+        })
     }
 
     function buildRecordsMarkers(records) {

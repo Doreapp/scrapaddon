@@ -70,7 +70,16 @@ class Store {
         }
         this.set(key, elements)
         return elements.length
+    }
 
+    async filterHistory(filterFunction) {
+        const key = `${this.name}-history`
+        let elements = await this.getHistory()
+        if (elements) {
+            elements = elements.filter(filterFunction)
+        }
+        this.set(key, elements)
+        return elements.length
     }
 
     async getHistory() {

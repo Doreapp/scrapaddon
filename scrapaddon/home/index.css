@@ -59,6 +59,7 @@ main {
     flex: 1;
     height: calc(100vh - var(--nav-height));
     overflow: scroll;
+    background-color: rgb(16, 16, 16);
 }
 
 #map {
@@ -92,4 +93,21 @@ table tr:nth-child(even) td {
 
 table tr.focused td {
     background-color: rgb(64, 0, 16);
+}
+
+td button {
+    margin: 10%;
+    width: 80%;
+    height: 80%;
+    background: none;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding-bottom: 20%;
+    padding-top: 20%;
+}
+
+td button:hover {
+    color: rgb(210, 210, 210);
 }
